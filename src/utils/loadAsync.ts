@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const loadJson = (fileName: string) => {
-  const path = join(process.cwd(), "files", fileName);
+  const path = join(process.cwd(), "files", fileName);//Mude para src/files para rodar local
   return Object.freeze(JSON.parse(readFileSync(path, "utf-8")));
 };
 

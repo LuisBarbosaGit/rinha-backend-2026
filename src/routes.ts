@@ -16,9 +16,8 @@ export const mainRoutes = (app: FastifyInstance) => {
     const dataToVector = convertToVector(data);
 
     //buscar os 5 vizinhos mais proximos
-    const numberOfCheat = searchItemsByVector(dataToVector);
+    const score = searchItemsByVector(dataToVector);
 
-    const score = numberOfCheat / 5;
     const isApproved = Boolean(score < minimalToApprove);
 
     return reply.send({

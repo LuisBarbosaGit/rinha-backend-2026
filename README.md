@@ -4,13 +4,13 @@ Backend em **Node.js**, **Fastify** e **TypeScript**, com build para **ESM** em 
 
 ## Stack
 
-| Peça | Uso |
-|------|-----|
-| Fastify | Servidor HTTP |
-| TypeScript + tsup | Código-fonte em `src/`, saída em `build/` |
-| tsx | Desenvolvimento com hot reload (`npm run dev`) |
-| zod | Validação do corpo em `POST /fraud-score` |
-| hnswlib-node | Índice vetorial e busca k-NN |
+| Peça              | Uso                                            |
+| ----------------- | ---------------------------------------------- |
+| Fastify           | Servidor HTTP                                  |
+| TypeScript + tsup | Código-fonte em `src/`, saída em `build/`      |
+| tsx               | Desenvolvimento com hot reload (`npm run dev`) |
+| zod               | Validação do corpo em `POST /fraud-score`      |
+| hnswlib-node      | Índice vetorial e busca k-NN                   |
 
 ## Estrutura principal
 
@@ -25,12 +25,12 @@ Backend em **Node.js**, **Fastify** e **TypeScript**, com build para **ESM** em 
 
 ## Scripts (`package.json`)
 
-| Comando | Descrição |
-|---------|-----------|
-| `npm run build` | Compila `src/server.ts` e `src/scripts/script.ts` para `build/` (ESM, `--clean`) |
-| `npm run start` | Sobe a API com `node build/server.js` (rode `build` antes se `build/` estiver vazio) |
-| `npm run dev` | Desenvolvimento: `tsx watch src/server.ts` |
-| `npm run script` | Executa o build do índice: `node build/scripts/script.js` |
+| Comando          | Descrição                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------ |
+| `npm run build`  | Compila `src/server.ts` e `src/scripts/script.ts` para `build/` (ESM, `--clean`)     |
+| `npm run start`  | Sobe a API com `node build/server.js` (rode `build` antes se `build/` estiver vazio) |
+| `npm run dev`    | Desenvolvimento: `tsx watch src/server.ts`                                           |
+| `npm run script` | Executa o build do índice: `node build/scripts/script.js`                            |
 
 Na imagem Docker, o **Dockerfile** roda `npm run build`, em seguida `npm run script`, copia `src/files` (incluindo artefatos gerados) para `./files` no container e inicia com `node build/server.js`.
 
@@ -84,3 +84,9 @@ O script grava `hnsw_index.dat` e `labels.json` em `src/files/`. A API em runtim
 
 - **Cliente → nginx:** `localhost:9999`
 - **nginx → APIs:** `api1:3000` e `api2:3000` (definido em `nginx.conf`)
+
+## Benchmarks e testes
+
+Velocidade das funcões utilizadas na rota /fraud-score
+convertToVector: 0.00 ms
+searchItemsByVector: 0.01 ms

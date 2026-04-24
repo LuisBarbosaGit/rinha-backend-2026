@@ -12,7 +12,8 @@
     "build": "tsup src/server.ts src/scripts/script.ts --format esm --out-dir build --clean",
     "start": "node build/server.js",
     "dev": "tsx watch src/server.ts",
-    "script": "node build/scripts/script.js"
+    "script": "node build/scripts/script.js",
+    "dev:script": "npx tsx  src/scripts/script.ts"
   },
   "dependencies": {
     "fastify": "^5.6.1",

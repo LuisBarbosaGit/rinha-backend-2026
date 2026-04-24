@@ -1,27 +1,15 @@
 import { FraudDetectionPayload } from "../schema.js";
+import { CONSTANTS, MCC_RISK } from "./loadAsync.js";
 
-// Constantes de normalização fixadas em tempo de compilação
-const MAX_AMOUNT = 10000;
-const MAX_INSTALLMENTS = 12;
-const AMOUNT_VS_AVG_RATIO = 10;
-const MAX_MINUTES = 1440;
-const MAX_KM = 1000;
-const MAX_TX_COUNT_24H = 20;
-const MAX_MERCHANT_AVG_AMOUNT = 10000;
-
-// Objeto estático de risco por categoria (MCC)
-const MCC_RISK: Record<string, number> = {
-  "5411": 0.15,
-  "5812": 0.3,
-  "5912": 0.2,
-  "5944": 0.45,
-  "7801": 0.8,
-  "7802": 0.75,
-  "7995": 0.85,
-  "4511": 0.35,
-  "5311": 0.25,
-  "5999": 0.5,
-};
+const {
+  max_amount: MAX_AMOUNT,
+  max_installments: MAX_INSTALLMENTS,
+  amount_vs_avg_ratio: AMOUNT_VS_AVG_RATIO,
+  max_minutes: MAX_MINUTES,
+  max_km: MAX_KM,
+  max_tx_count_24h: MAX_TX_COUNT_24H,
+  max_merchant_avg_amount: MAX_MERCHANT_AVG_AMOUNT,
+} = CONSTANTS;
 
 const clamp = (val: number) => Math.max(0, Math.min(1, val));
 

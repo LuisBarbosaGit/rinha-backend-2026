@@ -1,5 +1,5 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { fraudDetectionSchema } from "./schema.js";
+import { FraudDetectionPayload, fraudDetectionSchema } from "./schema.js";
 import { convertToVector } from "./utils/convertToVector.js";
 import { searchItemsByVector } from "./utils/searchByVector.js";
 
@@ -11,14 +11,7 @@ export const mainRoutes = (app: FastifyInstance) => {
   app.post("/fraud-score", async (req: FastifyRequest, reply: FastifyReply) => {
     const minimalToApprove = 0.6;
 
-    //receber requisição
-    const checkedReq = fraudDetectionSchema.safeParse(req.body);
-
-    if (!checkedReq.success) {
-      throw new Error("Invalid data");
-    }
-
-    const data = checkedReq.data;
+    const data = req.body as FraudDetectionPayload;
 
     const dataToVector = convertToVector(data);
 

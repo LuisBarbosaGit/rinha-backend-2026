@@ -10,8 +10,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.25"
-          memory: "90MB"
+          cpus: "0.40"
+          memory: "160MB"
 
   api2:
     image: luisbarbosagit/rinha-api-2026:latest
@@ -24,8 +24,22 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.25"
-          memory: "90MB"
+          cpus: "0.40"
+          memory: "160MB"
 
   nginx:
     image: nginx:1.27-alpine
+    container_name: rinha_nginx
+    depends_on:
+      - api1
+      - api2
+    ports:
+      - "9999:9999"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: "30MB"

@@ -1,11 +1,11 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { FraudDetectionPayload, fraudDetectionSchema } from "./schema.js";
+import { FraudDetectionPayload } from "./schema.js";
 import { convertToVector } from "./utils/convertToVector.js";
 import { searchItemsByVector } from "./utils/searchByVector.js";
 
 export const mainRoutes = (app: FastifyInstance) => {
-  app.get("/health", async () => {
-    return { status: "ok" };
+  app.get("/ready", async (_, reply: FastifyReply) => {
+    return reply.code(200);
   });
 
   app.post("/fraud-score", async (req: FastifyRequest, reply: FastifyReply) => {

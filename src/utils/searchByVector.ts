@@ -8,20 +8,17 @@ let labelsBuffer: Uint8Array;
 
 export const initializeVectorStore = () => {
   index.readIndexSync("./files/hnsw_index.dat"); //Mude para ./src/files para local
-  index.setEf(100);
+  index.setEf(120);
 
   const rawLabels = readFileSync("./files/labels.json", "utf-8"); //Mude para ./src/files para local
 
   const data = JSON.parse(rawLabels);
 
-  
   const ids = Object.keys(data).map(Number);
   const maxId = ids.reduce((max, atual) => Math.max(max, atual), 0);
 
-  
   labelsBuffer = new Uint8Array(maxId + 1);
 
-  
   for (const [indice, label] of Object.entries(data)) {
     labelsBuffer[Number(indice)] = label === "fraud" ? 1 : 0;
   }

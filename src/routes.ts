@@ -5,7 +5,7 @@ import { searchItemsByVector } from "./utils/searchByVector.js";
 
 export const mainRoutes = (app: FastifyInstance) => {
   app.get("/ready", async (_, reply: FastifyReply) => {
-    return reply.code(200);
+    return reply.status(200);
   });
 
   app.post("/fraud-score", async (req: FastifyRequest, reply: FastifyReply) => {

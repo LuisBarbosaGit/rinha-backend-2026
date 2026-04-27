@@ -26,7 +26,7 @@ export const warmup = () => {
     last_transaction: null,
   };
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const v = convertToVector(fakeData as any);
     searchItemsByVector(v);
   }

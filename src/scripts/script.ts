@@ -5,8 +5,8 @@ import { writeFileSync } from "node:fs";
 
 const raw = await readFile("./src/files/references.json", "utf-8");
 const data = JSON.parse(raw);
-const maxElements = 1000000;
-const M = 12;
+const maxElements = 800000;
+const M = 10;
 const efConstruction = 500;
 
 export const index = new HierarchicalNSW("l2", 14);

@@ -1,26 +1,22 @@
 import pkg from "hnswlib-node";
 const { HierarchicalNSW } = pkg;
-import { readFile, writeFile } from "fs/promises";
-
-const maxElements = 100000;
+import { readFile } from "fs/promises";
+import { writeFileSync } from "node:fs";
 
 const raw = await readFile("./src/files/references.json", "utf-8");
 const data = JSON.parse(raw);
+const maxElements = 1000000;
+const M = 12;
+const efConstruction = 500;
 
 export const index = new HierarchicalNSW("l2", 14);
-index.initIndex(maxElements);
+index.initIndex(maxElements, M, efConstruction);
+const labelsBuffer = Buffer.alloc(maxElements); // Cria o espaço exato
 
-export const labelsMap: Record<number, string> = {};
-
-// 3. Inserção iterativa no índice C++
-for (let i = 0; i < data.length; i++) {
-  // O método addPoint recebe o vetor [0.5, 0.2...] e um ID de identificação (o próprio 'i')
+for (let i = 0; i < maxElements; i++) {
   index.addPoint(data[i].vector, i);
-
-  // O rótulo é guardado no mapa paralelo usando o mesmo ID
-  labelsMap[i] = data[i].label;
+  labelsBuffer[i] = data[i].label === "fraud" ? 1 : 0; // Preenche no mesmo loop
 }
 
-// 4. Exportação dos artefatos finais para o disco
 index.writeIndexSync("./src/files/hnsw_index.dat");
-await writeFile("./src/files/labels.json", JSON.stringify(labelsMap));
+writeFileSync("./src/files/labels.bin", labelsBuffer);

@@ -2,13 +2,14 @@ import pkg from "hnswlib-node";
 const { HierarchicalNSW } = pkg;
 import { readFile, writeFile } from "fs/promises";
 
-const maxElements = 100000;
-
 const raw = await readFile("./src/files/references.json", "utf-8");
 const data = JSON.parse(raw);
+const maxElements = data.length;
+const M = 5;
+const efConstruction = 500;
 
 export const index = new HierarchicalNSW("l2", 14);
-index.initIndex(maxElements);
+index.initIndex(maxElements, M, efConstruction);
 
 export const labelsMap: Record<number, string> = {};
 

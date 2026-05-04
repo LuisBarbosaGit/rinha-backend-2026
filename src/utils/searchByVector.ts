@@ -8,7 +8,7 @@ let labelsBuffer: Uint8Array;
 
 export const initializeVectorStore = () => {
   index.readIndexSync("./files/hnsw_index.dat"); //Mude para ./src/files para local
-  index.setEf(140);
+  index.setEf(96);
 
   const buffer = readFileSync("./files/labels.bin");
   labelsBuffer = new Uint8Array(buffer);
@@ -24,5 +24,5 @@ export const searchItemsByVector = (normalizeVector: number[]): number => {
     cheatCount += labelsBuffer[resultOfSearch.neighbors[i]];
   }
 
-  return cheatCount / maxNeighbors;
+  return cheatCount;
 };

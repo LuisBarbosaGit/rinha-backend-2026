@@ -14,7 +14,15 @@ const responseSchema = {
     },
   },
 };
-const minimalToApprove = 0.6;
+
+const RESPONSES = [
+  { approved: true, fraud_score: 0.0 },
+  { approved: true, fraud_score: 0.2 },
+  { approved: true, fraud_score: 0.4 },
+  { approved: false, fraud_score: 0.6 },
+  { approved: false, fraud_score: 0.8 },
+  { approved: false, fraud_score: 1.0 },
+] as const;
 
 export const mainRoutes = (app: FastifyInstance) => {
   app.get("/ready", async (_, reply: FastifyReply) => {
@@ -30,12 +38,9 @@ export const mainRoutes = (app: FastifyInstance) => {
       const dataToVector = convertToVector(data);
 
       //buscar os 5 vizinhos mais proximos
-      const score = searchItemsByVector(dataToVector);
+      const fraudCount = searchItemsByVector(dataToVector);
 
-      return reply.send({
-        approved: score < minimalToApprove,
-        fraud_score: score,
-      });
+      return reply.send(RESPONSES[fraudCount]);
     },
   );
 };

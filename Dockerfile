@@ -22,11 +22,14 @@ WORKDIR /app
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/build ./build
-COPY --from=builder /app/src/files ./files
+COPY --from=builder /app/src/files/hnsw_index.dat ./files/
+COPY --from=builder /app/src/files/labels.bin ./files/
+COPY --from=builder /app/src/files/normalization.json ./files/
+COPY --from=builder /app/src/files/mcc_risk.json ./files/
 
 ENV NODE_ENV=production
 ENV PORT=9999
 
 EXPOSE 9999
 
-CMD ["node", "--max-old-space-size=45", "build/server.js"]
+CMD ["node", "--max-old-space-size=50", "build/server.js"]

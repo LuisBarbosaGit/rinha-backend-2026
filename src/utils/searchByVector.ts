@@ -5,17 +5,25 @@ import { readFileSync } from "fs";
 const index = new HierarchicalNSW("l2", 14);
 const maxNeighbors = 5;
 let labelsBuffer: Uint8Array;
+const conversionArray = new Array(14);
 
 export const initializeVectorStore = () => {
   index.readIndexSync("./files/hnsw_index.dat"); //Mude para ./src/files para local
-  index.setEf(96);
+  index.setEf(90);
 
   const buffer = readFileSync("./files/labels.bin");
   labelsBuffer = new Uint8Array(buffer);
 };
 
-export const searchItemsByVector = (normalizeVector: number[]): number => {
-  const resultOfSearch = index.searchKnn(normalizeVector, maxNeighbors);
+export const searchItemsByVector = (normalizeVector: Float32Array): number => {
+  for (let i = 0; i < 14; i++) {
+    conversionArray[i] = normalizeVector[i];
+  }
+
+  const resultOfSearch = index.searchKnn(
+    Array.from(conversionArray),
+    maxNeighbors,
+  );
 
   let cheatCount = 0;
 

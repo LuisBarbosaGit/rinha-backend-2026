@@ -32,4 +32,4 @@ ENV PORT=9999
 
 EXPOSE 9999
 
-CMD ["node", "--max-old-space-size=45", "build/server.js"]
+CMD ["node", "--max-old-space-size=50", "build/server.js"]

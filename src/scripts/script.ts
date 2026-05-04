@@ -5,7 +5,7 @@ import { writeFileSync } from "node:fs";
 
 const raw = await readFile("./src/files/references.json", "utf-8");
 const data = JSON.parse(raw);
-const maxElements = 550000;
+const maxElements = 500000;
 const M = 16;
 const efConstruction = 500;
 

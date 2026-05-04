@@ -8,7 +8,7 @@ let labelsBuffer: Uint8Array;
 
 export const initializeVectorStore = () => {
   index.readIndexSync("./files/hnsw_index.dat"); //Mude para ./src/files para local
-  index.setEf(120);
+  index.setEf(140);
 
   const buffer = readFileSync("./files/labels.bin");
   labelsBuffer = new Uint8Array(buffer);

@@ -1,6 +1,6 @@
 services:
   api1:
-    build: .
+    image: luisbarbosagit/rinha-api-2026:latest
     container_name: rinha_api_1
     environment:
       - PORT=3000
@@ -14,7 +14,7 @@ services:
           memory: "170MB"
 
   api2:
-    build: .
+    image: luisbarbosagit/rinha-api-2026:latest
     container_name: rinha_api_2
     environment:
       - PORT=3000

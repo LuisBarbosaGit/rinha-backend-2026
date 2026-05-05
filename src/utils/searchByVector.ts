@@ -5,7 +5,7 @@ import { readFileSync } from "fs";
 const index = new HierarchicalNSW("l2", 14);
 const maxNeighbors = 5;
 let labelsBuffer: Uint8Array;
-const conversionArray = new Array(14);
+const fixedArray = new Array(14);
 
 export const initializeVectorStore = () => {
   index.readIndexSync("./files/hnsw_index.dat"); //Mude para ./src/files para local
@@ -17,13 +17,9 @@ export const initializeVectorStore = () => {
 
 export const searchItemsByVector = (normalizeVector: Float32Array): number => {
   for (let i = 0; i < 14; i++) {
-    conversionArray[i] = normalizeVector[i];
+    fixedArray[i] = normalizeVector[i];
   }
-
-  const resultOfSearch = index.searchKnn(
-    Array.from(conversionArray),
-    maxNeighbors,
-  );
+  const resultOfSearch = index.searchKnn(fixedArray, maxNeighbors);
 
   let cheatCount = 0;
 

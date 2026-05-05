@@ -15,8 +15,9 @@ const {
   max_merchant_avg_amount,
 } = CONSTANTS;
 
+const vector = new Float32Array(14);
+
 export const convertToVector = (data: FraudDetectionPayload): Float32Array => {
-  const vector = new Float32Array(14);
   const { transaction, customer, merchant, terminal, last_transaction } = data;
 
   // [0] e [1] - Clamp inlined

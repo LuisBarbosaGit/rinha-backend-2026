@@ -15,14 +15,14 @@ const responseSchema = {
   },
 };
 
-const RESPONSES = [
-  { approved: true, fraud_score: 0.0 },
-  { approved: true, fraud_score: 0.2 },
-  { approved: true, fraud_score: 0.4 },
-  { approved: false, fraud_score: 0.6 },
-  { approved: false, fraud_score: 0.8 },
-  { approved: false, fraud_score: 1.0 },
-] as const;
+export const RESPONSES_BUFFER = [
+  Buffer.from('{"approved":true,"fraud_score":0.0}'),
+  Buffer.from('{"approved":true,"fraud_score":0.2}'),
+  Buffer.from('{"approved":true,"fraud_score":0.4}'),
+  Buffer.from('{"approved":false,"fraud_score":0.6}'),
+  Buffer.from('{"approved":false,"fraud_score":0.8}'),
+  Buffer.from('{"approved":false,"fraud_score":1.0}'),
+];
 
 export const mainRoutes = (app: FastifyInstance) => {
   app.get("/ready", async (_, reply: FastifyReply) => {
@@ -40,7 +40,12 @@ export const mainRoutes = (app: FastifyInstance) => {
       //buscar os 5 vizinhos mais proximos
       const fraudCount = searchItemsByVector(dataToVector);
 
-      return reply.send(RESPONSES[fraudCount]);
+      const res = reply.raw;
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+        "Content-Length": RESPONSES_BUFFER[fraudCount].length,
+      });
+      res.end(RESPONSES_BUFFER[fraudCount]);
     },
   );
 };

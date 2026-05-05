@@ -9,7 +9,7 @@ const fixedArray = new Array(14);
 
 export const initializeVectorStore = () => {
   index.readIndexSync("./files/hnsw_index.dat"); //Mude para ./src/files para local
-  index.setEf(90);
+  index.setEf(72);
 
   const buffer = readFileSync("./files/labels.bin");
   labelsBuffer = new Uint8Array(buffer);

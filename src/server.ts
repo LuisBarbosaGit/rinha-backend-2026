@@ -4,7 +4,7 @@ import { initializeVectorStore } from "./utils/searchByVector.js";
 import { warmup } from "./utils/warmup.js";
 
 const app = Fastify({
-  logger: true,
+  logger: false,
 });
 
 const start = async () => {
@@ -12,10 +12,11 @@ const start = async () => {
     app.register(mainRoutes);
     initializeVectorStore();
     await warmup(app);
+    if (global.gc) {
+      global.gc(); 
+    }
     await app.listen({ host: "0.0.0.0", port: 3000 });
-    console.log(`API listening on ${3000}`);
   } catch (err) {
-    app.log.error(err);
     process.exit(1);
   }
 };

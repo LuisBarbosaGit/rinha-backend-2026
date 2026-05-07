@@ -31,7 +31,6 @@ export const mainRoutes = (app: FastifyInstance) => {
 
       const dataToVector = convertToVector(data);
 
-      //buscar os 5 vizinhos mais proximos
       const fraudCount = searchItemsByVector(dataToVector);
 
       const fraud_score = fraudCount / KNN;

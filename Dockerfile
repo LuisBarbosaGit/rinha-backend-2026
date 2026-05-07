@@ -2,8 +2,6 @@ FROM node:24-alpine AS builder
 
 WORKDIR /app
 
-RUN apk add --no-cache python3 make g++
-
 COPY package.json package-lock.json ./
 
 RUN npm install
@@ -12,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-RUN npm run script
+RUN npm run script 
 
 RUN npm prune --omit=dev
 
@@ -22,12 +20,13 @@ WORKDIR /app
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/build ./build
-COPY --from=builder /app/src/files/hnsw_index.dat ./files/
-COPY --from=builder /app/src/files/labels.bin ./files/
+
+
+COPY --from=builder /app/database.bin ./database.bin
 
 ENV NODE_ENV=production
 ENV PORT=9999
 
 EXPOSE 9999
 
-CMD ["node", "--no-warnings", "--max-old-space-size=50", "build/server.js"]
+CMD ["node", "--no-warnings", "--max-old-space-size=100", "build/server.js"]

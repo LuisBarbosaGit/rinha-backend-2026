@@ -1,6 +1,6 @@
 services:
   api1:
-    image: luisbarbosagit/rinha-api-2026:latest
+    image: luisbarbosagit/rinha-api-2026:v7
     container_name: rinha_api_1
     environment:
       - PORT=3000
@@ -11,10 +11,10 @@ services:
       resources:
         limits:
           cpus: "0.4"
-          memory: "160MB"
+          memory: "165MB"
 
   api2:
-    image: luisbarbosagit/rinha-api-2026:latest
+    image: luisbarbosagit/rinha-api-2026:v7
     container_name: rinha_api_2
     environment:
       - PORT=3000
@@ -25,7 +25,7 @@ services:
       resources:
         limits:
           cpus: "0.4"
-          memory: "160MB"
+          memory: "165MB"
 
   nginx:
     image: nginx:1.27-alpine
@@ -42,4 +42,4 @@ services:
       resources:
         limits:
           cpus: "0.2"
-          memory: "30MB"
+          memory: "20MB"

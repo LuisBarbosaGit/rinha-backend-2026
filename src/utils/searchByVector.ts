@@ -1,11 +1,28 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const CENTROIDS_COUNT = 1000;
 const DIMS = 14;
 const TOTAL = 3000000;
 
+function resolveDatabasePath(): string {
+  let dir = dirname(fileURLToPath(import.meta.url));
+  for (let i = 0; i < 12; i++) {
+    const candidate = join(dir, "database.bin");
+    if (existsSync(candidate)) return candidate;
+    const parent = dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+
+  throw new Error(
+    `database.bin não encontrado: gere na raiz do projeto (ex.: npm run script)`,
+  );
+}
+
 // Carrega o banco para a RAM na inicialização do servidor
-const rawBuffer = readFileSync("./database.bin");
+const rawBuffer = readFileSync(resolveDatabasePath());
 
 let offset = 0;
 
